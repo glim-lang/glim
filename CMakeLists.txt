@@ -14,11 +14,11 @@ else()
 endif()
 
 add_executable("${PROJECT_NAME}"
-  "src/analysis.c"
+  "src/compiler.c"
+  "src/diagnostics.c"
   "src/error.c"
   "src/lexer.c"
   "src/main.c"
   "src/memory.c"
-  "src/parser.c"
   "src/utils.c"
 )

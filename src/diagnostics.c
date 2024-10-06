@@ -1,5 +1,5 @@
 //
-// analysis.c
+// diagnostics.c
 //
 // Copyright 2024 The Glim Authors and Contributors.
 //
@@ -8,7 +8,7 @@
 // located in the root directory of this project.
 //
 
-#include "analysis.h"
+#include "diagnostics.h"
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
@@ -29,25 +29,25 @@ static inline const char *message_kind_name(MessageKind kind)
   return name;
 }
 
-void analysis_init(Analysis *analysis, Error *err)
+void diagnostics_init(Diagnostics *diag, Error *err)
 {
-  slice_init(&analysis->messages, err);
+  slice_init(&diag->messages, err);
 }
 
-void analysis_deinit(Analysis *analysis)
+void diagnostics_deinit(Diagnostics *diag)
 {
-  slice_deinit(&analysis->messages);
+  slice_deinit(&diag->messages);
 }
 
-void analysis_append(Analysis *analysis, Error *err, MessageKind kind, const char *fmt, ...)
+void diagnostics_append(Diagnostics *diag, Error *err, MessageKind kind, const char *fmt, ...)
 {
   va_list args;
   va_start(args, fmt);
-  analysis_append_with_args(analysis, err, kind, fmt, args);
+  diagnostics_append_with_args(diag, err, kind, fmt, args);
   va_end(args);
 }
 
-void analysis_append_with_args(Analysis *analysis, Error *err, MessageKind kind,
+void diagnostics_append_with_args(Diagnostics *diag, Error *err, MessageKind kind,
   const char *fmt, va_list args)
 {
   char str[MESSAGE_MAX_LENGTH + 1];
@@ -56,14 +56,14 @@ void analysis_append_with_args(Analysis *analysis, Error *err, MessageKind kind,
   Message msg;
   msg.kind = kind;
   copy_cstring(msg.str, str, MESSAGE_MAX_LENGTH);
-  slice_append(&analysis->messages, msg, err);
+  slice_append(&diag->messages, msg, err);
 }
 
-void analysis_print(Analysis *analysis)
+void diagnostics_print(Diagnostics *diag)
 {
-  for (size_t i = 0; i < analysis->messages.len; ++i)
+  for (size_t i = 0; i < diag->messages.len; ++i)
   {
-    Message *msg = &slice_get(&analysis->messages, i);
+    Message *msg = &slice_get(&diag->messages, i);
     const char *kindName = message_kind_name(msg->kind);
     printf("%s: %s\n", kindName, msg->str);
   }

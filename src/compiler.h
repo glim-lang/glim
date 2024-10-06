@@ -1,5 +1,5 @@
 //
-// parser.h
+// compiler.h
 //
 // Copyright 2024 The Glim Authors and Contributors.
 //
@@ -8,11 +8,11 @@
 // located in the root directory of this project.
 //
 
-#ifndef PARSER_H
-#define PARSER_H
+#ifndef COMPILER_H
+#define COMPILER_H
 
-#include "analysis.h"
+#include "diagnostics.h"
 
-void parse(char *source, Error *err, Analysis *analysis);
+void compile(char *source, Error *err, Diagnostics *diag);
 
-#endif // PARSER_H
+#endif // COMPILER_H

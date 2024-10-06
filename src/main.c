@@ -9,7 +9,7 @@
 //
 
 #include <stdlib.h>
-#include "parser.h"
+#include "compiler.h"
 
 int main(void)
 {
@@ -17,12 +17,12 @@ int main(void)
                  "fib(10)";
   Error err;
   error_init(&err);
-  Analysis analysis;
-  analysis_init(&analysis, &err);
+  Diagnostics diag;
+  diagnostics_init(&diag, &err);
   if (!ok(&err)) goto error;
-  parse(source, &err, &analysis);
+  compile(source, &err, &diag);
   if (!ok(&err)) goto error;
-  analysis_print(&analysis);
+  diagnostics_print(&diag);
   return EXIT_SUCCESS;
 error:
   error_print(&err);

@@ -1,5 +1,5 @@
 //
-// analysis.h
+// diagnostics.h
 //
 // Copyright 2024 The Glim Authors and Contributors.
 //
@@ -8,8 +8,8 @@
 // located in the root directory of this project.
 //
 
-#ifndef ANALYSIS_H
-#define ANALYSIS_H
+#ifndef DIAGNOSTICS_H
+#define DIAGNOSTICS_H
 
 #include "slice.h"
 
@@ -31,13 +31,13 @@ typedef struct
 typedef struct
 {
   Slice(Message) messages;
-} Analysis;
+} Diagnostics;
 
-void analysis_init(Analysis *analysis, Error *err);
-void analysis_deinit(Analysis *analysis);
-void analysis_append(Analysis *analysis, Error *err, MessageKind kind, const char *fmt, ...);
-void analysis_append_with_args(Analysis *analysis, Error *err, MessageKind kind,
+void diagnostics_init(Diagnostics *diag, Error *err);
+void diagnostics_deinit(Diagnostics *diag);
+void diagnostics_append(Diagnostics *diag, Error *err, MessageKind kind, const char *fmt, ...);
+void diagnostics_append_with_args(Diagnostics *diag, Error *err, MessageKind kind,
   const char *fmt, va_list args);
-void analysis_print(Analysis *analysis);
+void diagnostics_print(Diagnostics *diag);
 
-#endif // ANALYSIS_H
+#endif // DIAGNOSTICS_H
