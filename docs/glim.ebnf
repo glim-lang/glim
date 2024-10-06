@@ -1,0 +1,35 @@
+
+stmt                ::= "let" NAME "=" expr ";" stmt
+                      | expr? EOF
+
+expr                ::= ternary_expr ( "|>" ternary_expr )*
+
+ternary_expr        ::= or_expr ( "?" expr ":" expr )?
+
+or_expr             ::= and_expr ( "||" and_expr )*
+
+and_expr            ::= eq_expr ( "&&" eq_expr )*
+
+eq_expr             ::= rel_expr ( ( "==" | "!=" ) rel_expr )*
+
+rel_expr            ::= concat_expr ( ( "<" | "<=" | ">" | ">=" ) concat_expr )*
+
+concat_expr         ::= add_expr ( "++" add_expr )*
+
+add_expr            ::= mul_expr ( ( "+" | "-" ) mul_expr )*
+
+mul_expr            ::= unary_expr ( ( "*" | "/" | "%" ) unary_expr )*
+
+unary_expr          ::= ( "!" | "-" ) unary_expr | subscr_expr
+
+subscr_expr         ::= prim_expr ( subscr | call )*
+
+prim_expr           ::= "nil" | "false" | "true" | NUMBER | STRING
+                      | "[" ( expr ( "," expr )* )? "]"
+                      | NAME ( "," NAME )* "=>" expr
+                      | NAME
+                      | "(" expr ")"
+
+subscr              ::= "[" expr "]"
+
+call                ::= "(" ( expr ( "," expr )* )? ")"
